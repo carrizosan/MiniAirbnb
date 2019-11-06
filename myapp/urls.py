@@ -3,8 +3,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from . import views
 
+
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('login', views.login, name='login'),
-    path('signup', views.signup, name='signup'),
+    path('', views.index, name='Home'),
+    path('register/', views.register, name='register'),
+    path('login/', views.login, name='login'),
+    path('logout/', views.logout, name='logout'),
+    path('reservations/', views.reservations, name='reservations'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

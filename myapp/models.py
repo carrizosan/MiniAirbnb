@@ -20,6 +20,8 @@ class Estate (models.Model):
     def __unicode__(self):
         return '{}'.format(self.title)
 
+    
+
 
 ######################################################
 class Reservation (models.Model):
