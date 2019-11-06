@@ -46,68 +46,30 @@
     </nav>
     <div class="container">
         <div class="row pt-5">
-            {% for e in estates %}
-            <div class="col-12 col-sm-6 col-md-6 col-lg-4 pt-3">
-           
-                <div class="card">
-                    <img class="card-img-top" src="{% static 'myapp/casa1.jpg'%}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">{{e.title}}</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                            the card's
-                            content.</p>
-                        <div class="row">
-                            <div class="col-6">
-                                <p>{{e.dailyRate}} p/dia</p>
-                            </div>
-                            <div class="col-6">
-                                <a href="#" class="btn btn-color">Consultar</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-              
-            </div>
-            {% endfor %}
-            <div class="col-12 col-sm-6 col-md-6 col-lg-4 pt-3">
-                <div class="card">
-                    <img class="card-img-top embed-responsive-item" src="{% static 'myapp/casa2.jpg'%}"
-                        alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                            the card's
-                            content.</p>
-                        <div class="row">
-                            <div class="col-6">
-                                <p>$300 p/dia</p>
-                            </div>
-                            <div class="col-6">
-                                <a href="#" class="btn btn-color">Consultar</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-6 col-lg-4 pt-3">
-                <div class="card">
-                    <img class="card-img-top" src="{% static 'myapp/casa3.jpg'%}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                            the card's
-                            content.</p>
-                        <div class="row">
-                            <div class="col-6">
-                                <p>$300 p/dia</p>
-                            </div>
-                            <div class="col-6">
-                                <a href="#" class="btn btn-color">Consultar</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Propiedad</th>
+                        <th scope="col">Fechas de Alquiler</th>
+                        <th scope="col">Precio Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Propiedad 1 </td>
+                        <td>25/11/2019 - 26/11/2019 - 28/11/2019 - 30/11/2019</td>
+                        <td>$30000</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Propiedad 2 </td>
+                        <td>25/11/2019 - 26/11/2019 - 28/11/2019 - 30/11/2019</td>
+                        <td>$45000</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </body>

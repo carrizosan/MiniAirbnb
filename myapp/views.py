@@ -3,11 +3,13 @@ from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth import logout as do_logout, authenticate, login as do_login
 from .forms import SignUpForm, LoginForm
+from .models import Estate
 
 
 def index(request):
     if request.user.is_authenticated:
-        return render(request, 'myapp/index.html')
+        estates = Estate.objects.all()
+        return render(request, 'myapp/index.html',{'estates':estates})
     return redirect('/login')
 
 

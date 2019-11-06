@@ -37,7 +37,15 @@
 }
 
 .alert{
-    padding-bottom: .05rem !important
+    padding-bottom: .05rem !important;
+}
+
+.title-item{
+    text-transform: uppercase ;
+}
+
+.card-detail{
+    border : 0px !important;
 }
 
 
