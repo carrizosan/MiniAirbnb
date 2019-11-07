@@ -11,7 +11,7 @@
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Document</title>
+    <title>Airbnb | Estate</title>
 </head>
 
 <body>
@@ -49,7 +49,7 @@
             <div class="col-8">
                 <div class="card card-detail">
                     <div class="card-body">
-                        <h2 class="card-title title-item">apart happy birds house</h2>
+                        <h2 class="card-title title-item">{{estate.title}}</h2>
                         <h6 class="card-subtitle mb-2 text-muted">Hospedado por Alojamiento<a href="" class="ml-4"
                                 style="color:#1ca5bd;"> Contacta al anfitrion</a></h6>
                         <p class="card-text">Sint elit commodo ut excepteur sunt consectetur eiusmod cupidatat. Mollit
@@ -81,7 +81,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="border-bottom pb-3">
-                            <h5 class="card-title">$76 por noche</h5>
+                            <h5 class="card-title">{{estate.dailyRate}}</h5>
                         </div>
                         <form method="POST">
                             <div class="mt-4">

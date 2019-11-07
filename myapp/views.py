@@ -48,6 +48,14 @@ def logout(request):
     return redirect('/')
 
 def reservations(request):
-    return render(request, 'myapp/reservations.html')
-  
+    if request.user.is_authenticated:
+        return render(request, 'myapp/reservations.html')
+    return redirect('/login')
+
+
+def detail(request, id=0):    
+    if request.user.is_authenticated:
+        estate = Estate.objects.get(id=id)
+        return render(request,'myapp/product_detail.html', {'estate':estate})
+    return redirect('/login')
 
