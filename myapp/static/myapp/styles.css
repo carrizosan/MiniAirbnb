@@ -1,4 +1,8 @@
-
+body, html{
+    height: 100%;
+    margin:0;
+    padding:0;
+}
 .navbar-expand-lg .navbar-nav .nav-link {
     font-size: 15px;
     font-weight: bold;
@@ -7,7 +11,8 @@
 }
 
 .img-logo{
-    width:80px !important;
+    width:53px !important;
+    height:53px !important;
 }
 
 .card-img-top {
@@ -40,6 +45,7 @@
     padding-bottom: .05rem !important;
 }
 
+/*PRODUCT DETAIL*/
 .title-item{
     text-transform: uppercase ;
 }
@@ -48,8 +54,31 @@
     border : 0px !important;
 }
 
+/*FILTER VIEW*/
+.bg {
+    background-image: url("https://mdbootstrap.com/img/Photos/Horizontal/Nature/full page/img(20).jpg");
+    height: 87%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
 
+.filter-card{
+    -webkit-box-shadow: 10px 10px 47px -4px rgba(0,0,0,0.75);
+-moz-box-shadow: 10px 10px 47px -4px rgba(0,0,0,0.75);
+box-shadow: 10px 10px 47px -4px rgba(0,0,0,0.75);
+}
+
+
+/*FOOTER*/
 footer{
     background-color: #f5f5f5;
     padding: 80px 0;
 }
+
+@media only screen and (max-width: 768px) {
+    .bg {
+     height:100%
+    }
+  }

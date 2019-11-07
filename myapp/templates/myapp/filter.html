@@ -11,7 +11,7 @@
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Airbnb | Reservations</title>
+    <title>Document</title>
 </head>
 
 <body>
@@ -44,55 +44,48 @@
             </ul>
         </div>
     </nav>
-    <div class="container">
-        <div class="row pt-5">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Propiedad</th>
-                        <th scope="col">Fechas de Alquiler</th>
-                        <th scope="col">Precio Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Propiedad 1 </td>
-                        <td>25/11/2019 - 26/11/2019 - 28/11/2019 - 30/11/2019</td>
-                        <td>$30000</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Propiedad 2 </td>
-                        <td>25/11/2019 - 26/11/2019 - 28/11/2019 - 30/11/2019</td>
-                        <td>$45000</td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="bg">
+        <div class="container h-100 d-flex justify-content-center align-items-center ">
+            <form>
+                <div class="card p-5 filter-card">
+                    <div class="form-row">
+                        <div class="form-group col-md-6 mb-2">
+                            <label for="inputCity">Ciudad</label>
+                            <select class="form-control" >
+                                <option>Mar del Plata</option>
+                                <option>La Plata</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6 mb-2">
+                            <label for="inputPax">Cantidad de pax</label>
+                            <select class="form-control">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6 mb-2">
+                            <label for="inputFirstDate">Fecha Desde:</label>
+                            <input type="date" name="bday" min="1000-01-01" max="3000-12-31" class="form-control">
+                        </div>
+                        <div class="form-group col-md-6 mb-2">
+                            <label for="inputSecondDate">Fecha Hasta:</label>
+                            <input type="date" name="bday" min="1000-01-01" max="3000-12-31" class="form-control">
+                        </div>
+                    </div>
+                        <button type="submit" class="btn btn-color mt-5 ">Filtrar</button>
+                </div>
+            </form>
         </div>
     </div>
+
 </body>
 
-<!-- Footer -->
-<footer class="mt-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="mb-3 d-flex align-items-center justify-content-center">
-                    <a class="">
-                        <i class="fa fa-facebook mr-md-5 mr-5 fa-2x"> </i>
-                    </a>
-                    <a class="">
-                        <i class="fa fa-twitter  mr-md-5 mr-5 fa-2x"> </i>
-                    </a>
-                    <a class="">
-                        <i class="fa fa-instagram mr-md-5 mr-5 fa-2x"> </i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -102,7 +95,5 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-</footer>
-<!-- Footer -->
 
 </html>
