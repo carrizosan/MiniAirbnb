@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth import logout as do_logout, authenticate, login as do_login
 from .forms import LoginForm
-from .models import Estate
+from .models import Estate, City, RentDate
 
 
 # def index(request):
@@ -13,8 +13,13 @@ from .models import Estate
 #     return redirect('/login')
 
 def index(request):
-    return render(request, 'myapp/filter.html')
+    cities = City.objects.all()
+    rentDates = RentDate.objects.all()
+    return render(request, 'myapp/filter.html',{'cities':cities,'rentDates':rentDates})
 
+def home(request):
+    estates = Estate.objects.all()
+    return render(request,'myapp/home.html',{'estates':estates})
 
 def login(request):
     form = LoginForm()

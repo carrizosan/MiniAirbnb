@@ -2,6 +2,7 @@ body, html{
     height: 100%;
     margin:0;
     padding:0;
+    overflow-x: hidden;
 }
 .navbar-expand-lg .navbar-nav .nav-link {
     font-size: 15px;
@@ -81,4 +82,5 @@ footer{
     .bg {
      height:100%
     }
-  }
+}
+
