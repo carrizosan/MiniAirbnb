@@ -73,4 +73,3 @@ class RentDate(models.Model):
     def __str__(self):
         return  str(self.date.strftime("%d/%m/%Y"))
 
-
