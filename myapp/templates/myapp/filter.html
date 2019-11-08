@@ -26,58 +26,67 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto ">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <a class="nav-link" href="/home">Propiedades</i></a>
                 </li>
             </ul>
-            <ul class="navbar-nav">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{request.user.username}}
-                        <i class="fa fa-user fa-2x" aria-hidden="true"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/reservations">Mis Reservas</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/logout">Logout</a>
-                    </div>
+            <ul class="navbar-nav ">
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin">Soy propietario <i class="fa fa-cogs" aria-hidden="true"></i></a>
                 </li>
             </ul>
         </div>
     </nav>
     <div class="bg">
         <div class="container h-100 d-flex justify-content-center align-items-center ">
-            <form>
+            <form action="/home">
                 <div class="card p-5 filter-card">
                     <div class="form-row">
                         <div class="form-group col-md-6 mb-2">
                             <label for="inputCity">Ciudad</label>
-                            <select class="form-control" >
-                                <option>Mar del Plata</option>
-                                <option>La Plata</option>
+                            <select class="form-control">
+                                <option>Elegi una opcion</option>
+                                {% for city in cities %}
+                                <option value="{{city.id}}">{{city.title}}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <div class="form-group col-md-6 mb-2">
                             <label for="inputPax">Cantidad de pax</label>
                             <select class="form-control">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6 mb-2">
                             <label for="inputFirstDate">Fecha Desde:</label>
-                            <input type="date" name="bday" min="1000-01-01" max="3000-12-31" class="form-control">
+                            <select class="form-control">
+                                <option>Elegi una opcion</option>
+                                {% for rentDate in rentDates %}
+                                <option value="{{rentDate.id}}">{{rentDate.date}}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                         <div class="form-group col-md-6 mb-2">
                             <label for="inputSecondDate">Fecha Hasta:</label>
-                            <input type="date" name="bday" min="1000-01-01" max="3000-12-31" class="form-control">
+                            <select class="form-control">
+                                <option>Elegi una opcion</option>
+                                {% for rentDate in rentDates %}
+                                <option value="{{rentDate.id}}">{{rentDate.date}}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                     </div>
-                        <button type="submit" class="btn btn-color mt-5 ">Filtrar</button>
+                    <button type="submit" class="btn btn-color mt-3 ">Filtrar</button!>
                 </div>
             </form>
         </div>
@@ -86,14 +95,14 @@
 </body>
 
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
 
 </html>

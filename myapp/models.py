@@ -1,12 +1,18 @@
 from django.db import models
 import datetime, os
 from django.contrib.auth.models import User
+from django.conf import settings
+from django.utils import formats
+from django.utils.translation import gettext as _
 
 class Owner(User):
     pass
 
     class Meta:
         verbose_name_plural = 'Propietarios'
+
+    def __str__(self):
+        return self.username
 
 ######################################################
 
@@ -16,15 +22,15 @@ class City (models.Model):
     class Meta:
         verbose_name_plural='Ciudades'
 
-    def __unicode__(self):
-        return '{}'.format(self.title)
+    def __str__(self):
+        return self.title
 
 
 
 ######################################################
 
 def get_image_path(instance, filename):
-    return os.path.join('photos', str(instance.id), filename)
+    return os.path.join('photos',filename)
 
 
 class Estate (models.Model):
@@ -39,8 +45,8 @@ class Estate (models.Model):
     class Meta:
         verbose_name_plural='Propiedades'
 
-    def __unicode__(self):
-        return '{}'.format(self.title)
+    def __str__(self):
+        return self.title
 
 ######################################################
 class Reservation (models.Model):
@@ -51,16 +57,20 @@ class Reservation (models.Model):
         verbose_name_plural='Reservaciones'
         ordering=('total','code')
 
-    def __unicode__(self):
-        return '{}'.format(self.total)
+    def __str__(self):
+        return self.code
 
 ######################################################
 class RentDate(models.Model):
-    reservation = models.ForeignKey(Reservation, on_delete=models.PROTECT)
-    estate = models.ForeignKey(Estate, on_delete=models.PROTECT, null=True)
-    date = models.DateTimeField()
+    reservation = models.ForeignKey(Reservation, on_delete=models.PROTECT, null=True, blank=True)
+    estate = models.ForeignKey(Estate, on_delete=models.PROTECT, null=True,blank=True)
+    date = models.DateField()
 
     class Meta:
         verbose_name_plural='Fecha de Alquiler'
         ordering=('date','estate')
+
+    def __str__(self):
+        return  str(self.date.strftime("%d/%m/%Y"))
+
 
