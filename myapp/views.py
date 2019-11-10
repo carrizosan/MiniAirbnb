@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.contrib.auth import logout as do_logout, authenticate, login as do_login
-from .forms import LoginForm
+from .forms import LoginForm, FilterForm
 from .models import Estate, City, RentDate
+from datetime import datetime
 
 
 # def index(request):
@@ -15,11 +16,32 @@ from .models import Estate, City, RentDate
 def index(request):
     cities = City.objects.all()
     rentDates = RentDate.objects.all()
-    return render(request, 'myapp/filter.html',{'cities':cities,'rentDates':rentDates})
+    form = FilterForm()
+    return render(request, 'myapp/filter.html',{'cities':cities,'rentDates':rentDates, 'form':form})
 
 def home(request):
-    estates = Estate.objects.all()
-    return render(request,'myapp/home.html',{'estates':estates})
+    form = FilterForm()
+    if request.method == 'POST':
+        form = FilterForm(request.POST)
+        if form.is_valid():
+            # df = datetime.strptime(request.POST['dateFrom'], '%Y-%m-%d')
+            # dt = datetime.strptime(request.POST['dateTo'], '%Y-%m-%d')
+            # estates = Estate.objects.all()
+            estates = Estate.objects.filter(
+                city=request.POST['city']
+            ).filter(
+                rentdate__date__gte=request.POST['dateFrom'], 
+                rentdate__date__lte=request.POST['dateTo']
+            ).distinct()
+            
+                  
+
+            return render(request, 'myapp/home.html', {'estates': estates})
+        else:
+            return redirect('/')
+    else:
+        return render(request, 'myapp/home.html')
+
 
 def login(request):
     form = LoginForm()

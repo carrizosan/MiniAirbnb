@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,21 +39,26 @@
     </nav>
     <div class="bg">
         <div class="container h-100 d-flex justify-content-center align-items-center ">
-            <form action="/home">
+            <form action="/home/" method="POST">
+                {% csrf_token %} 
+            
                 <div class="card p-5 filter-card">
+                
                     <div class="form-row">
                         <div class="form-group col-md-6 mb-2">
-                            <label for="inputCity">Ciudad</label>
-                            <select class="form-control">
-                                <option>Elegi una opcion</option>
-                                {% for city in cities %}
+                            <!-- <label for="inputCity">Ciudad</label> -->
+                            {{ form.city|as_crispy_field }}
+                            <!-- <select class="form-control" id="inputCity">
+                            {% for city in cities %}
                                 <option value="{{city.id}}">{{city.title}}</option>
-                                {% endfor %}
-                            </select>
+                            {% endfor %}
+                            </select> -->
                         </div>
                         <div class="form-group col-md-6 mb-2">
-                            <label for="inputPax">Cantidad de pax</label>
-                            <select class="form-control">
+                            <!-- <label for="inputPax">Cantidad de pax</label> -->
+                            {{ form.pax|as_crispy_field }}
+                               
+                            <!-- <select class="form-control" id="inputPax">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -63,27 +69,29 @@
                                 <option value="8">8</option>
                                 <option value="9">9</option>
                                 <option value="10">10</option>
-                            </select>
+                            </select> -->
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6 mb-2">
-                            <label for="inputFirstDate">Fecha Desde:</label>
-                            <select class="form-control">
+                            <!-- <label for="inputFirstDate">Fecha Desde:</label> -->
+                            {{ form.dateFrom|as_crispy_field }}
+                            <!-- <select class="form-control" id="inputFirstDate">
                                 <option>Elegi una opcion</option>
                                 {% for rentDate in rentDates %}
                                 <option value="{{rentDate.id}}">{{rentDate.date}}</option>
                                 {% endfor %}
-                            </select>
+                            </select> -->
                         </div>
                         <div class="form-group col-md-6 mb-2">
-                            <label for="inputSecondDate">Fecha Hasta:</label>
-                            <select class="form-control">
+                            <!-- <label for="inputSecondDate">Fecha Hasta:</label> -->
+                            {{ form.dateTo|as_crispy_field }}
+                            <!-- <select class="form-control" id="inputSecondDate">
                                 <option>Elegi una opcion</option>
                                 {% for rentDate in rentDates %}
                                 <option value="{{rentDate.id}}">{{rentDate.date}}</option>
                                 {% endfor %}
-                            </select>
+                            </select> -->
                         </div>
                     </div>
                     <button type="submit" class="btn btn-color mt-3 ">Filtrar</button!>

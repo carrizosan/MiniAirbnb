@@ -62,6 +62,7 @@ class Reservation (models.Model):
 
 ######################################################
 class RentDate(models.Model):
+    
     reservation = models.ForeignKey(Reservation, on_delete=models.PROTECT, null=True, blank=True)
     estate = models.ForeignKey(Estate, on_delete=models.PROTECT, null=True,blank=True)
     date = models.DateField()

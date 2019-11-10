@@ -126,3 +126,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR,'static'),
 )
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, '')
+MEDIA_URL = '/'
