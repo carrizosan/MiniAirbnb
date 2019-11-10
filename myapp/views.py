@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.contrib.auth import logout as do_logout, authenticate, login as do_login
-from .forms import LoginForm, FilterForm
+from .forms import LoginForm, FilterForm, DetailForm
 from .models import Estate, City, RentDate
 from datetime import datetime
 
@@ -24,18 +24,13 @@ def home(request):
     if request.method == 'POST':
         form = FilterForm(request.POST)
         if form.is_valid():
-            # df = datetime.strptime(request.POST['dateFrom'], '%Y-%m-%d')
-            # dt = datetime.strptime(request.POST['dateTo'], '%Y-%m-%d')
-            # estates = Estate.objects.all()
             estates = Estate.objects.filter(
                 city=request.POST['city']
             ).filter(
                 rentdate__date__gte=request.POST['dateFrom'], 
                 rentdate__date__lte=request.POST['dateTo']
             ).distinct()
-            
-                  
-
+ 
             return render(request, 'myapp/home.html', {'estates': estates})
         else:
             return redirect('/')
@@ -83,9 +78,10 @@ def reservations(request):
     return redirect('/login')
 
 
-def detail(request, id=0):    
+def detail(request, id=0):   
+    form = DetailForm(id)
     if request.user.is_authenticated:
         estate = Estate.objects.get(id=id)
-        return render(request,'myapp/product_detail.html', {'estate':estate})
+        return render(request,'myapp/product_detail.html', {'estate':estate, 'form':form})
     return redirect('/login')
 

@@ -36,8 +36,19 @@ class FilterForm(forms.ModelForm):
         model = Estate
         fields = ['city']
         
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['city'].queryset = City.objects.all()
+
+class DetailForm(forms.ModelForm):
+
+    class Meta:
+        model = RentDate
+        fields = ['date']
+
+    def __init__(self, estate, *args, **kwargs):
+        super(DetailForm, self).__init__(*args, **kwargs)
+        self.fields['date'] = forms.ModelMultipleChoiceField(queryset=RentDate.objects.filter(estate__id=estate))
+
+    
 
