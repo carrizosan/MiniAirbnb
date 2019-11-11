@@ -3,8 +3,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.contrib.auth import logout as do_logout, authenticate, login as do_login
 from .forms import LoginForm, FilterForm, DetailForm
-from .models import Estate, City, RentDate
+from .models import Estate, City, RentDate, Reservation
 from datetime import datetime
+from decimal import *
 
 
 # def index(request):
@@ -80,8 +81,28 @@ def reservations(request):
 
 def detail(request, id=0):   
     form = DetailForm(id)
-    if request.user.is_authenticated:
+    if request.method == "GET":
         estate = Estate.objects.get(id=id)
         return render(request,'myapp/product_detail.html', {'estate':estate, 'form':form})
-    return redirect('/login')
+    elif request.method == "POST":
+        form = DetailForm(data=request.POST, estateId=id)
+        # if form.is_valid():
+        string = str(form.data).replace(" ", "")
+        sub1 = string.split('date',1)[1]
+        sub2 = sub1[3:-3].replace("'", "")
+        l = list(sub2.split(","))
+        cod = datetime.today().strftime('%y-%m-%d-%H-%M-%S') + "-" + str(id) + "-" + str(request.user.id)
+        prop = Estate.objects.get(id=id)
+        getcontext().prec = 10
+        total = (prop.dailyRate * l.__len__()) * Decimal(1.08)
+        r = Reservation(code=cod, user=request.user.id, total=total)
+        r.save()
+
+        for rentDates in l:
+            dte = int(rentDates)
+            rd = RentDate.objects.get(id=dte)
+            rd.reservation = r
+            rd.save()
+
+        return redirect('/')
 

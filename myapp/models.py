@@ -50,8 +50,10 @@ class Estate (models.Model):
 
 ######################################################
 class Reservation (models.Model):
-    code = models.CharField(max_length=10)
-    total = models.DecimalField(max_digits=10,decimal_places=2)
+    code = models.CharField(max_length=30)
+    total = models.DecimalField(max_digits=10,decimal_places=2, null=True)
+    user = models.CharField(max_length=100)
+    date = models.DateField(auto_now=True)
 
     class Meta:
         verbose_name_plural='Reservaciones'
@@ -64,7 +66,7 @@ class Reservation (models.Model):
 class RentDate(models.Model):
     
     reservation = models.ForeignKey(Reservation, on_delete=models.PROTECT, null=True, blank=True)
-    estate = models.ForeignKey(Estate, on_delete=models.PROTECT, null=True,blank=True)
+    estate = models.ForeignKey(Estate, on_delete=models.PROTECT, null=False,blank=False)
     date = models.DateField()
 
     class Meta:
@@ -72,5 +74,5 @@ class RentDate(models.Model):
         ordering=('date','estate')
 
     def __str__(self):
-        return  str(self.date.strftime("%d/%m/%Y"))
+        return  str(self.date.strftime("%d-%m-%Y"))
 

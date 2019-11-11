@@ -68,6 +68,7 @@
                                     <p class="text-muted"><i class="fa fa-users" aria-hidden="true"></i> Apto para
                                         familias</p>
                                 </div>
+                                <input id="dailyRate" value= {{ estate.dailyRate }} hidden=true>
                             </div>
                         </div>
 
@@ -78,7 +79,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="border-bottom pb-3">
-                            <h5 class="card-title">{{estate.dailyRate}}</h5>
+                            <h5 class="card-title">Precio por dia $ {{estate.dailyRate}}</h5>
                         </div>
                         <form method="POST" action="">
                         {% csrf_token %}
@@ -87,31 +88,34 @@
                                     {{ form.date|as_crispy_field }}
                                     <!-- <input type="input" class="form-control" id="input-example" placeholder="otra data"> -->
                                 </div>
-                                <div class="border-bottom d-flex justify-content-between  mt-2">
-                                    <div>
-                                        <p class="text-muted">150 x 2 noches</p>
+                                <div id="price-wrapper" hidden=true>
+                                    <div class="border-bottom d-flex justify-content-between  mt-5">
+                                        <div>
+                                            <p class="text-muted" id="q-nights">{{estate.dailyRate}} x 0 noches</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-muted" id="subtotal">$0</p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p class="text-muted">$300</p>
+                                    <div class="border-bottom d-flex justify-content-between mt-2">
+                                        <div>
+                                            <p class="text-muted">Comision por servicio</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-muted" id="commission">8% = $0 </p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between  mt-2">
+                                        <div>
+                                            <p class="">Total</p>
+                                        </div>
+                                        <div>
+                                            <p class="" id="total">$0</p>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="border-bottom d-flex justify-content-between mt-2">
-                                    <div>
-                                        <p class="text-muted">Comision por servicio</p>
-                                    </div>
-                                    <div>
-                                        <p class="text-muted">8% = 24 </p>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-between  mt-2">
-                                    <div>
-                                        <p class="">Total</p>
-                                    </div>
-                                    <div>
-                                        <p class="">$324</p>
-                                    </div>
-                                </div>
-                                <button class="mt-3 btn btn-md btn-color btn-block" type="submit">Reservar</button>
+                                
+                                <button class="mt-3 btn btn-md btn-color btn-block" type="submit" id="reserve-btn" disabled>Reservar</button>
                             </div>
 
                         </form>
@@ -150,6 +154,38 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+    <script>
+        let options = document.getElementById("id_date").options;
+        let count = 0;
+        let dailyRate = document.getElementById("dailyRate").value;
+        let wrapper = document.getElementById("price-wrapper");
+        let button = document.getElementById("reserve-btn")
+        let total = document.getElementById("total")
+        let subtotal = document.getElementById("subtotal")
+        let commission = document.getElementById("commission")
+        let nights = document.getElementById("q-nights")
+
+        document.getElementById("id_date").addEventListener('change', function(e){
+            count = 0;
+            for (var i=0; i < options.length; i++) {
+                if (options[i].selected) count++;
+            }
+            if(count === 0) {
+                wrapper.hidden = true
+                button.disabled = true
+            } else {
+                subt = (dailyRate*count)
+                com = subt * 0.08
+                wrapper.hidden = false
+                button.disabled = false
+                nights.innerHTML = dailyRate + " x " + count + " noches"
+                subtotal.innerHTML = "$" + subt
+                commission.innerHTML = "8% = $" + com
+                total.innerHTML = "$" + (subt + com)
+            }
+        });
+
+    </script>
 </footer>
 <!-- Footer -->
 

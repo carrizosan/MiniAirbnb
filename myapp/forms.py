@@ -5,7 +5,8 @@ from django.utils.translation import gettext as _
 from myapp.models import RentDate, City, Estate
 from datetime import date
 from django.forms import widgets
-
+from airbnb.settings import DATE_INPUT_FORMATS, PAX_QUANTITY_CHOICE
+from django.contrib.admin.widgets import AdminDateWidget
 
 # class SignUpForm(UserCreationForm):
 #     first_name = forms.CharField(max_length=100, required=True)
@@ -27,10 +28,17 @@ class LoginForm(AuthenticationForm):
     )} 
 
 class FilterForm(forms.ModelForm):
-    DATE_INPUT_FORMATS = ['%Y-%m-%d']
-    pax = forms.IntegerField(label="Cantidad de Pax", min_value=1, max_value=10)
-    dateFrom = forms.DateField(label="Desde", input_formats=DATE_INPUT_FORMATS)
-    dateTo = forms.DateField(label="Hasta", input_formats=DATE_INPUT_FORMATS)
+    # YEARS = ['2019', '2020', '2021']
+    # MONTHS = {
+    #     1:_('ENE'), 2:_('FEB'), 3:_('MAR'), 4:_('ABR'),
+    #     5:_('MAY'), 6:_('JUN'), 7:_('JUL'), 8:_('AGO'),
+    #     9:_('SEP'), 10:_('OCT'), 11:_('NOV'), 12:_('DIC')
+    # }
+
+    pax = forms.ChoiceField(choices=PAX_QUANTITY_CHOICE, label="Cantidad de Pax")
+    dateFrom = forms.DateField(label="Desde", input_formats=DATE_INPUT_FORMATS,help_text="AAAA-MM-DD")
+    dateTo = forms.DateField(label="Hasta", input_formats=DATE_INPUT_FORMATS,help_text="AAAA-MM-DD")
+    # dateTo = forms.DateField(widget=forms.SelectDateWidget(years=YEARS, months=MONTHS))
 
     class Meta:
         model = Estate
@@ -39,16 +47,23 @@ class FilterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['city'].queryset = City.objects.all()
+        self.fields['city'].label = "Ciudad"
+
 
 class DetailForm(forms.ModelForm):
-
     class Meta:
         model = RentDate
         fields = ['date']
+    
 
-    def __init__(self, estate, *args, **kwargs):
+    def __init__(self, estateId, *args, **kwargs):
         super(DetailForm, self).__init__(*args, **kwargs)
-        self.fields['date'] = forms.ModelMultipleChoiceField(queryset=RentDate.objects.filter(estate__id=estate))
+        self.fields['date'] = forms.ModelMultipleChoiceField(
+            queryset=RentDate.objects.filter(estate__id=estateId),
+            label="Fechas disponibles:",
+            help_text="Seleccione las fechas a reservar",
+        )
+        
 
     
 
