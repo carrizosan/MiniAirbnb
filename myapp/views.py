@@ -87,22 +87,21 @@ def detail(request, id=0):
     elif request.method == "POST":
         form = DetailForm(data=request.POST, estateId=id)
         # if form.is_valid():
-        string = str(form.data).replace(" ", "")
-        sub1 = string.split('date',1)[1]
-        sub2 = sub1[3:-3].replace("'", "")
-        l = list(sub2.split(","))
+            # dates = form.cleaned_data['date']
+            # form.is_valid method don't work.
+            # return redirect('/')
         cod = datetime.today().strftime('%y-%m-%d-%H-%M-%S') + "-" + str(id) + "-" + str(request.user.id)
         prop = Estate.objects.get(id=id)
         getcontext().prec = 10
-        total = (prop.dailyRate * l.__len__()) * Decimal(1.08)
+        total = (prop.dailyRate * form['date'].value().__len__()) * Decimal(1.08)
+
         r = Reservation(code=cod, user=request.user.id, total=total)
         r.save()
 
-        for rentDates in l:
-            dte = int(rentDates)
+        for i in form['date'].value():
+            dte = int(i)
             rd = RentDate.objects.get(id=dte)
             rd.reservation = r
             rd.save()
-
-        return redirect('/')
+            return redirect('/')
 

@@ -55,7 +55,6 @@ class DetailForm(forms.ModelForm):
         model = RentDate
         fields = ['date']
     
-
     def __init__(self, estateId, *args, **kwargs):
         super(DetailForm, self).__init__(*args, **kwargs)
         self.fields['date'] = forms.ModelMultipleChoiceField(

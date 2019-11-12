@@ -70,7 +70,7 @@ class RentDate(models.Model):
     date = models.DateField()
 
     class Meta:
-        verbose_name_plural='Fecha de Alquiler'
+        verbose_name_plural='Fechas de Alquiler'
         ordering=('date','estate')
 
     def __str__(self):
