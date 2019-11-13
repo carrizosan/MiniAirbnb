@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils import formats
 from django.utils.translation import gettext as _
+from django.core.validators import MaxValueValidator
 
 class Owner(User):
     pass
@@ -40,7 +41,7 @@ class Estate (models.Model):
     image = models.ImageField(upload_to=get_image_path,blank=True, null=False)
     city = models.ForeignKey(City,on_delete=models.PROTECT, null=False)
     descripcion = models.TextField(max_length=500)
-    
+    pax = models.PositiveIntegerField(validators=[MaxValueValidator(10)])
 
     class Meta:
         verbose_name_plural='Propiedades'
