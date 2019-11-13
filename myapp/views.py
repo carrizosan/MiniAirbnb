@@ -6,6 +6,7 @@ from .forms import LoginForm, FilterForm, DetailForm
 from .models import Estate, City, RentDate, Reservation
 from datetime import datetime
 from decimal import *
+from django.db.models import Count
 
 
 # def index(request):
@@ -75,8 +76,15 @@ def logout(request):
 
 def reservations(request):
     if request.user.is_authenticated:
-        return render(request, 'myapp/reservations.html')
-    return redirect('/login')
+        rents_per_reservation = []
+        reservations = Reservation.objects.filter(
+            rentdate__estate__owner__id= request.user.id
+        ).distinct()
+        for r in reservations:
+            rents = RentDate.objects.filter(reservation=r.id) #array de fechas de alquiler con id de reserva
+            rents_per_reservation.append(rents)#array de array
+        return render(request, 'myapp/reservations.html',{'rents_per_reservation': rents_per_reservation})
+    return redirect('/admin')
 
 
 def detail(request, id=0):   
