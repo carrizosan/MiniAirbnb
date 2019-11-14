@@ -26,41 +26,85 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto ">
-                <li class="nav-item">
-                    <a class="nav-link" href="/home">Propiedades</i></a>
+            <ul class="navbar-nav ml-auto">
+                {% if request.user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{request.user.username}}
+                        <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        {% if request.user.is_superuser %}
+                        {% else %}
+                        <a class="dropdown-item" href="/reservations/">Mis Reservas</a>
+                        <a class="dropdown-item" href="/admin/">Admin Site</a>
+                        <div class="dropdown-divider"></div>
+                        {% endif %}
+                        <a class="dropdown-item" href="/logout/">Logout</a>
+                    </div>
                 </li>
-            </ul>
-            <ul class="navbar-nav ">
+                {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin">Soy propietario <i class="fa fa-cogs" aria-hidden="true"></i></a>
+                    <a class="nav-link" href="/login/">Soy propietario <i class="fa fa-cogs" aria-hidden="true"></i></a>
                 </li>
+                {% endif %}
             </ul>
         </div>
     </nav>
     <div class="bg">
-            {% csrf_token %}
+        {% csrf_token %}
         <div class="container h-100 d-flex justify-content-center align-items-center ">
-            <div class="card p-5 filter-card" style="width: 30rem;">
-                <img class="card-img-top" src="{{estate.image.url}}" alt="Card image cap">
-                <div class="card-body">
-                  <h5 class="card-title">Gracias {{reservation.user}} !</h5>
-                  <p class="card-text">Su reserva en {{estate.title}} por un total de ${{total}} ha sido confirmada exitosamente</p>
+            <div class="card p-3 filter-card d-none d-md-block ">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <img class="card-img-top" src="{{estate.image.url}}" alt="Card image cap">
+                        <a href="{% url 'index' %}" class="btn btn-color mt-4 btn-block">Volver al inicio</a>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="card-body">
+                            <h5 class="card-title">Gracias {{reservation.user}} !</h5>
+                            <p class="card-text">Su reserva en <span class="font-weight-bolder">{{estate.title}}
+                                </span>por un total de <span class="font-weight-bolder">${{total}}</span> ha sido
+                                confirmada exitosamente</p>
+                            <ul class="list-group list-group-flush ">
+                                <li class="list-group-item ">Su Código: <span
+                                        class="font-weight-bolder">{{reservation.code}}</span> </li>
+                                <li class="list-group-item">Fechas:
+                                    {% for d in dates %}
+                                    <p class="font-weight-bolder">{{d.date}}</p>
+                                    {% endfor %}
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
                 </div>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item">Su Código: {{reservation.code}} </li>
-                  <li class="list-group-item">Fechas:
-                      {% for d in dates %}
-                        <p>{{d.date}}</p>
-                      {% endfor %}
-                  </li>
-                </ul>
-                <div class="card-body">
-                        <a href="{% url 'index' %}" class="btn btn-color">Volver al inicio</a>
+            </div>
+            <div class="card p-3 filter-card d-block d-md-none ">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card-body">
+                            <h5 class="card-title">Gracias {{reservation.user}} !</h5>
+                            <p class="card-text">Su reserva en <span class="font-weight-bolder">{{estate.title}}
+                                </span>por un total de <span class="font-weight-bolder">${{total}}</span> ha sido
+                                confirmada exitosamente</p>
+                            <ul class="list-group list-group-flush ">
+                                <li class="list-group-item ">Cód.: <span
+                                        class="font-weight-bolder">{{reservation.code}}</span> </li>
+                                <li class="list-group-item">Fechas:
+                                    {% for d in dates %}
+                                    <p class="font-weight-bolder">{{d.date}}</p>
+                                    {% endfor %}
+                                </li>
+                            </ul>
+                            <a href="{% url 'index' %}" class="btn btn-color mt-4 btn-block">Volver al inicio</a>
+                        </div>
+
+                    </div>
                 </div>
-              </div>
-                
+            </div>
         </div>
+
     </div>
 
 </body>

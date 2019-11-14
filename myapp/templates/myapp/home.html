@@ -14,7 +14,7 @@
     <title>Airbnb | Home</title>
 </head>
 
-<body>
+<body class="home">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a href="/" class="nav-link"><img src="{% static 'myapp/airbnb.png'%}" class="img-responsive img-logo"
                 alt="My image"></a>
@@ -24,14 +24,8 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto ">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-            </ul>
-        
             {% if request.user.is_authenticated %}
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{request.user.username}}
@@ -41,6 +35,7 @@
                         {% if request.user.is_superuser %}
                         {% else %}
                         <a class="dropdown-item" href="/reservations/">Mis Reservas</a>
+                        <a class="dropdown-item" href="/admin/">Admin</a>
                         <div class="dropdown-divider"></div>
                         {% endif %}
                         <a class="dropdown-item" href="/logout/">Logout</a>
@@ -54,7 +49,6 @@
         <div class="row pt-5">
             {% for e in estates %}
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 pt-3">
-           
                 <div class="card">
                     <img class="card-img-top" src="{{ e.image.url }}" alt="Imagen de la propiedad">
                     <div class="card-body">
@@ -70,11 +64,11 @@
                         </div>
                     </div>
                 </div>
-              
             </div>
             {% endfor %}
         </div>
     </div>
+
 </body>
 
 <!-- Footer -->

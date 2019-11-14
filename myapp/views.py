@@ -32,14 +32,15 @@ def home(request):
                 rentdate__date__gte=request.POST['dateFrom'], 
                 rentdate__date__lte=request.POST['dateTo'],
                 rentdate__reservation__isnull=True,
-                pax__lte=request.POST['pax']
+                pax__gte=request.POST['pax']
             ).distinct()
- 
+            if not estates:
+                return redirect('/')
             return render(request, 'myapp/home.html', {'estates': estates})
         else:
             return render(request, 'myapp/filter.html', {'form': form})
     else:
-        return render(request, 'myapp/home.html')
+        return redirect('/')
 
 
 def login(request):
@@ -52,7 +53,7 @@ def login(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 do_login(request, user)
-                return redirect('/')
+                return redirect('/admin')
     return render(request, 'myapp/login.html', {'form': form})
 
 
@@ -78,14 +79,17 @@ def logout(request):
 
 def reservations(request):
     if request.user.is_authenticated:
-        rents_per_reservation = []
-        reservations = Reservation.objects.filter(
-            rentdate__estate__owner__id= request.user.id
-        ).distinct()
-        for r in reservations:
-            rents = RentDate.objects.filter(reservation=r.id) #array de fechas de alquiler con id de reserva
-            rents_per_reservation.append(rents)#array de array
-        return render(request, 'myapp/reservations.html',{'rents_per_reservation': rents_per_reservation})
+        if request.user.is_superuser:
+            return redirect('/admin')
+        else:
+            rents_per_reservation = []
+            reservations = Reservation.objects.filter(
+                rentdate__estate__owner__id= request.user.id
+            ).distinct()
+            for r in reservations:
+                rents = RentDate.objects.filter(reservation=r.id) #array de fechas de alquiler con id de reserva
+                rents_per_reservation.append(rents)#array de array
+            return render(request, 'myapp/reservations.html',{'rents_per_reservation': rents_per_reservation})
     return redirect('/admin')
 
 

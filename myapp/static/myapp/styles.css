@@ -1,9 +1,23 @@
-body, html{
+
+html {
+    height: 100%;
+    box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+    position: relative;
     height: 100%;
     margin:0;
     padding:0;
-    overflow-x: hidden;
 }
+
+
+
 .navbar-expand-lg .navbar-nav .nav-link {
     font-size: 15px;
     font-weight: bold;
@@ -16,16 +30,32 @@ body, html{
     height:53px !important;
 }
 
-.card-img-top {
-    width: 100%;
-    height: 40vh;
-    object-fit: cover;
+.bg {
+    background-image: url('/static/myapp/wallpaper.jpg');
+    height: 87%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.filter-card{
+    -webkit-box-shadow: 10px 10px 47px -4px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 47px -4px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 47px -4px rgba(0,0,0,0.75);
 }
 
 .btn-color{
     color:white !important;
     font-weight: bold !important;
     background-color: rgb(255, 90, 95) !important;
+}
+
+
+.card-img-top {
+    width: 100%;
+    height: 40vh;
+    object-fit: cover;
 }
 
 /*SIGNUP AND LOGIN FORM*/
@@ -55,25 +85,19 @@ body, html{
     border : 0px !important;
 }
 
-/*FILTER VIEW*/
-.bg {
-    background-image: url("https://mdbootstrap.com/img/Photos/Horizontal/Nature/full page/img(20).jpg");
-    height: 87%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    position: relative;
+.card-detail .card-body{
+    padding-top: 0px !important;
 }
 
-.filter-card{
-    -webkit-box-shadow: 10px 10px 47px -4px rgba(0,0,0,0.75);
--moz-box-shadow: 10px 10px 47px -4px rgba(0,0,0,0.75);
-box-shadow: 10px 10px 47px -4px rgba(0,0,0,0.75);
-}
+
 
 
 /*FOOTER*/
 footer{
+    width:100%;
+    right: 0;
+    bottom: 0;
+    left: 0;
     background-color: #f5f5f5;
     padding: 80px 0;
 }

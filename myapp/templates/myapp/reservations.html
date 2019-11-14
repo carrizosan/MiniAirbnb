@@ -14,7 +14,7 @@
     <title>Airbnb | Reservations</title>
 </head>
 
-<body>
+<body class="reservations">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a href="/" class="nav-link"><img src="{% static 'myapp/airbnb.png'%}" class="img-responsive img-logo"
                 alt="My image"></a>
@@ -24,59 +24,57 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto ">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{request.user.username}}
                         <i class="fa fa-user fa-2x" aria-hidden="true"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/reservations">Mis Reservas</a>
+                        <a class="dropdown-item" href="/reservations/">Mis Reservas</a>
+                        <a class="dropdown-item" href="/admin/">Admin Site</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/logout">Logout</a>
+                        <a class="dropdown-item" href="/logout/">Logout</a>
                     </div>
                 </li>
             </ul>
         </div>
     </nav>
-    <div class="container">
+    <div class="container" >
         <div class="row pt-5">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Cod.</th>
-                        <th scope="col">Propiedad</th>
-                        <th scope="col">Nombre de Usuario</th>
-                        <th scope="col">Fechas de Alquiler</th>
-                        <th scope="col">Precio Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for rent_per_reservation in rents_per_reservation %}
-                    <tr>
-                        <th scope="row">{{rent_per_reservation.0.reservation.code}}</th>
-                        <td>{{rent_per_reservation.0.estate.title}}</td>
-                        <td>{{rent_per_reservation.0.reservation.user}}</td>
-                        <td>{% for rent in rent_per_reservation %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Cod.</th>
+                            <th scope="col">Propiedad</th>
+                            <th scope="col">Nombre de Usuario</th>
+                            <th scope="col">Fechas de Alquiler</th>
+                            <th scope="col">Precio Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rent_per_reservation in rents_per_reservation %}
+                        <tr>
+                            <th scope="row">{{rent_per_reservation.0.reservation.code}}</th>
+                            <td>{{rent_per_reservation.0.estate.title}}</td>
+                            <td>{{rent_per_reservation.0.reservation.user}}</td>
+                            <td>{% for rent in rent_per_reservation %}
                                 {{rent.date}} <br>
-                            {% endfor %}
-                        </td>
-                        <td>$ {{rent_per_reservation.0.reservation.total}}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                                {% endfor %}
+                            </td>
+                            <td>$ {{rent_per_reservation.0.reservation.total}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </body>
 
 <!-- Footer -->
-<footer class="mt-5">
+<footer >
     <div class="container">
         <div class="row">
             <div class="col-md-12">
