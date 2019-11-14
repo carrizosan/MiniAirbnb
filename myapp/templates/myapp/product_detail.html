@@ -57,17 +57,11 @@
                         <div class="border-top pt-3">
                             <h6>Servicios</h6>
                             <div class="row">
+                                {% for s in services %}
                                 <div class="col-6">
-                                    <p class="text-muted"><i class="fa fa-paw" aria-hidden="true"></i> Se admiten
-                                        mascotas</p>
-                                    <p class="text-muted"><i class="fa fa-globe" aria-hidden="true"></i> Internet</p>
+                                    <p class="text-muted"><i class="{{s.iconClass}}" aria-hidden="true"></i>{{s.name}}</p>
                                 </div>
-                                <div class="col-6">
-                                    <p class="text-muted"><i class="fa fa-product-hunt" aria-hidden="true"></i> Lugar de
-                                        estacionamiento privado</p>
-                                    <p class="text-muted"><i class="fa fa-users" aria-hidden="true"></i> Apto para
-                                        familias</p>
-                                </div>
+                                {% endfor %}
                                 <input id="dailyRate" value= {{ estate.dailyRate }} hidden=true>
                             </div>
                         </div>
@@ -81,7 +75,7 @@
                         <div class="border-bottom pb-3">
                             <h5 class="card-title">Precio por dia $ {{estate.dailyRate}}</h5>
                         </div>
-                        <form method="POST" action="">
+                        <form method="POST" action="/thanks/{{estate.id}}/">
                         {% csrf_token %}
                             <div class="mt-4">
                                 <div class="form-group">
@@ -113,7 +107,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+                                <div class="border-bottom d-flex form-group justify-content-between"> 
+                                    {{ form.user|as_crispy_field }}
+                                </div>
                                 <button class="mt-3 btn btn-md btn-color btn-block" type="submit" id="reserve-btn" disabled>Reservar</button>
                             </div>
 

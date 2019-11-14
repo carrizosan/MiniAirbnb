@@ -13,9 +13,7 @@
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    
-   
-    <title>Airbnb | Search</title>
+    <title>Airbnb | Thanks</title>
 </head>
 
 <body>
@@ -41,31 +39,27 @@
         </div>
     </nav>
     <div class="bg">
+            {% csrf_token %}
         <div class="container h-100 d-flex justify-content-center align-items-center ">
-            <form action="/home/" method="POST">
-                {% csrf_token %}
-                <div class="card p-5 filter-card">
-                
-                    <div class="form-row">
-                        <div class="form-group col-md-6 mb-2">
-                            {{ form.city|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-6 mb-2">
-                            {{ form.pax|as_crispy_field }}
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6 mb-2">
-                            {{ form.dateFrom|as_crispy_field }}
-                        </div>
-                        <div class="form-group col-md-6 mb-2">
-                            {{ form.dateTo|as_crispy_field }}
-                        </div>
-                    </div>
-                    {{ form|as_crispy_errors }}
-                    <button type="submit" class="btn btn-color mt-3 ">Filtrar</button!>
+            <div class="card p-5 filter-card" style="width: 30rem;">
+                <img class="card-img-top" src="{{estate.image.url}}" alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title">Gracias {{reservation.user}} !</h5>
+                  <p class="card-text">Su reserva en {{estate.title}} por un total de ${{total}} ha sido confirmada exitosamente</p>
                 </div>
-            </form>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">Su Código: {{reservation.code}} </li>
+                  <li class="list-group-item">Fechas:
+                      {% for d in dates %}
+                        <p>{{d.date}}</p>
+                      {% endfor %}
+                  </li>
+                </ul>
+                <div class="card-body">
+                        <a href="{% url 'index' %}" class="btn btn-color">Volver al inicio</a>
+                </div>
+              </div>
+                
         </div>
     </div>
 

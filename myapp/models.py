@@ -33,6 +33,15 @@ class City (models.Model):
 def get_image_path(instance, filename):
     return os.path.join('photos',filename)
 
+class Service (models.Model):
+    name = models.CharField(max_length=30)
+    iconClass = models.CharField(max_length=30)
+
+    class Meta:
+        verbose_name_plural="Servicios"
+
+    def __str__(self):
+        return self.name
 
 class Estate (models.Model):
     owner = models.ForeignKey(Owner, on_delete=models.PROTECT)
@@ -42,6 +51,7 @@ class Estate (models.Model):
     city = models.ForeignKey(City,on_delete=models.PROTECT, null=False)
     descripcion = models.TextField(max_length=500)
     pax = models.PositiveIntegerField(validators=[MaxValueValidator(6)])
+    services = models.ManyToManyField(Service)
 
     class Meta:
         verbose_name_plural='Propiedades'

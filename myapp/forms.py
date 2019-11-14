@@ -7,6 +7,7 @@ from datetime import date
 from django.forms import widgets
 from airbnb.settings import DATE_INPUT_FORMATS, PAX_QUANTITY_CHOICE
 from django.contrib.admin.widgets import AdminDateWidget
+from django.core.exceptions import ValidationError
 
 # class SignUpForm(UserCreationForm):
 #     first_name = forms.CharField(max_length=100, required=True)
@@ -49,8 +50,21 @@ class FilterForm(forms.ModelForm):
         self.fields['city'].queryset = City.objects.all()
         self.fields['city'].label = "Ciudad"
 
+    def clean(self):
+        cleaned_data = super(FilterForm, self).clean()
+        date1 = str(self.cleaned_data['dateFrom'])
+        date2 = str(self.cleaned_data['dateTo'])
+        
+        if date1 and date2:
+            if date1 > date2:
+                raise forms.ValidationError(_('Combinación de fechas incorrecta'), code='invalid')
+        return cleaned_data
+        
+
 
 class DetailForm(forms.ModelForm):
+    user = forms.CharField(label="Ingrese su nombre", max_length=30,)
+
     class Meta:
         model = RentDate
         fields = ['date']
@@ -58,9 +72,9 @@ class DetailForm(forms.ModelForm):
     def __init__(self, estateId, *args, **kwargs):
         super(DetailForm, self).__init__(*args, **kwargs)
         self.fields['date'] = forms.ModelMultipleChoiceField(
-            queryset=RentDate.objects.filter(estate__id=estateId),
+            queryset=RentDate.objects.filter(estate__id=estateId, reservation__isnull=True),
             label="Fechas disponibles:",
-            help_text="Seleccione las fechas a reservar",
+            help_text="Seleccione las fechas a reservar: CTRL+Click",
         )
         
 

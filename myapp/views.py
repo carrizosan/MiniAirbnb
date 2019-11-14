@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.contrib.auth import logout as do_logout, authenticate, login as do_login
 from .forms import LoginForm, FilterForm, DetailForm
-from .models import Estate, City, RentDate, Reservation
+from .models import Estate, City, RentDate, Reservation, Service
 from datetime import datetime
 from decimal import *
 from django.db.models import Count
@@ -22,20 +22,22 @@ def index(request):
     return render(request, 'myapp/filter.html',{'cities':cities,'rentDates':rentDates, 'form':form})
 
 def home(request):
-    form = FilterForm()
+    form = FilterForm(request.POST)
     if request.method == 'POST':
-        form = FilterForm(request.POST)
+        
         if form.is_valid():
             estates = Estate.objects.filter(
                 city=request.POST['city']
             ).filter(
                 rentdate__date__gte=request.POST['dateFrom'], 
-                rentdate__date__lte=request.POST['dateTo']
+                rentdate__date__lte=request.POST['dateTo'],
+                rentdate__reservation__isnull=True,
+                pax__lte=request.POST['pax']
             ).distinct()
  
             return render(request, 'myapp/home.html', {'estates': estates})
         else:
-            return redirect('/')
+            return render(request, 'myapp/filter.html', {'form': form})
     else:
         return render(request, 'myapp/home.html')
 
@@ -91,8 +93,13 @@ def detail(request, id=0):
     form = DetailForm(id)
     if request.method == "GET":
         estate = Estate.objects.get(id=id)
-        return render(request,'myapp/product_detail.html', {'estate':estate, 'form':form})
-    elif request.method == "POST":
+        services = Service.objects.filter(estate=id)
+        return render(request,'myapp/product_detail.html', {'estate':estate, 'form':form, 'services':services})  
+    return redirect('/')
+
+def thanks(request, id=0):
+    if request.method == "POST":
+        
         form = DetailForm(data=request.POST, estateId=id)
         # if form.is_valid():
             # dates = form.cleaned_data['date']
@@ -102,14 +109,17 @@ def detail(request, id=0):
         prop = Estate.objects.get(id=id)
         getcontext().prec = 10
         total = (prop.dailyRate * form['date'].value().__len__()) * Decimal(1.08)
+        user = form['user'].value()
 
-        r = Reservation(code=cod, user=request.user.id, total=total)
+        r = Reservation(code=cod, user=user, total=total)
         r.save()
-
+        
         for i in form['date'].value():
             dte = int(i)
             rd = RentDate.objects.get(id=dte)
             rd.reservation = r
             rd.save()
-            return redirect('/')
+        finalDates = RentDate.objects.filter(reservation=r.id)
+        return render(request,'myapp/thanks.html', {'form':form, 'estate':prop, 'reservation':r, 'dates':finalDates, 'total':round(r.total, 2)},)  
+    return redirect('/')
 
