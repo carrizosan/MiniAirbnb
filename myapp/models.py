@@ -41,7 +41,7 @@ class Estate (models.Model):
     image = models.ImageField(upload_to=get_image_path,blank=True, null=False)
     city = models.ForeignKey(City,on_delete=models.PROTECT, null=False)
     descripcion = models.TextField(max_length=500)
-    pax = models.PositiveIntegerField(validators=[MaxValueValidator(10)])
+    pax = models.PositiveIntegerField(validators=[MaxValueValidator(6)])
 
     class Meta:
         verbose_name_plural='Propiedades'
