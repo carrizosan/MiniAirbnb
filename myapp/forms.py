@@ -69,7 +69,8 @@ class FilterForm(forms.ModelForm):
 
 
 class DetailForm(forms.ModelForm):
-    user = forms.CharField(label="Ingrese su nombre", max_length=30,)
+    user = forms.CharField(label="", max_length=30, help_text="Ingrese su nombre")
+    email = forms.EmailField(label="", help_text="Ingrese su e-mail")
 
     class Meta:
         model = RentDate

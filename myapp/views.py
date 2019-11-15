@@ -7,8 +7,10 @@ from .models import Estate, City, RentDate, Reservation, Service
 from datetime import datetime
 from decimal import *
 from django.db.models import Count
-from airbnb.settings import DATE_INPUT_FORMATS
-# from bootstrap_datepicker_plus import DateTimePickerInput
+from airbnb.settings import DATE_INPUT_FORMATS, EMAIL_FROM
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.template.loader import render_to_string
+from email.mime.image import MIMEImage
 
 # def index(request):
 #     if request.user.is_authenticated:
@@ -114,12 +116,13 @@ def thanks(request, id=0):
             # dates = form.cleaned_data['date']
             # form.is_valid method don't work.
             # return redirect('/')
-        cod = datetime.today().strftime('%y-%m-%d-%H-%M-%S') + "-" + str(id) + "-" + str(request.user.id)
+        
         prop = Estate.objects.get(id=id)
+        cod = datetime.today().strftime('%y-%m-%d-%H-%M-%S') + "-" + str(id) + "-" + str(prop.owner.id)
         getcontext().prec = 10
         total = (prop.dailyRate * form['date'].value().__len__()) * Decimal(1.08)
         user = form['user'].value()
-
+        email = form['email'].value()
         r = Reservation(code=cod, user=user, total=total)
         r.save()
         
@@ -129,6 +132,23 @@ def thanks(request, id=0):
             rd.reservation = r
             rd.save()
         finalDates = RentDate.objects.filter(reservation=r.id)
+
+        # SENDING EMAIL
+        subject = 'Su reserva en MiniAirbnb ha sido realizada exitosamente'
+        temp = 'myapp/email.html'
+        ctx = {
+            "user": user,
+            "total": total,
+            "prop": prop.title,
+            "code": cod,
+            "pax": prop.pax,
+            "dates": finalDates,
+        }
+        html_content = render_to_string(temp, ctx)
+        msg = EmailMultiAlternatives(subject, html_content, EMAIL_FROM, to=[email,])
+        msg.content_subtype = 'html'
+        msg.mixed_subtype = 'related'
+        msg.send()
         return render(request,'myapp/thanks.html', {'form':form, 'estate':prop, 'reservation':r, 'dates':finalDates, 'total':round(r.total, 2)},)  
     return redirect('/')
 
