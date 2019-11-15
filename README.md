@@ -18,7 +18,7 @@ Users:
 
 Logueese como Owner para ver las reservas de sus propiedades:
 
--owners:
+-owners: <br/>
     user: carlosdiaz  /  pass: charly2019  (Reservas precargadas) <br/>
     user: julianmiguez  /  pass: juli2019   (Reservas precargadas) <br/>
     user: claudiacordoba  /  pass: clau2019  (Reservas precargadas) <br/>
