@@ -123,6 +123,7 @@ def thanks(request, id=0):
         total = (prop.dailyRate * form['date'].value().__len__()) * Decimal(1.08)
         user = form['user'].value()
         email = form['email'].value()
+        city = prop.city.title
         r = Reservation(code=cod, user=user, total=total)
         r.save()
         
@@ -132,7 +133,7 @@ def thanks(request, id=0):
             rd.reservation = r
             rd.save()
         finalDates = RentDate.objects.filter(reservation=r.id)
-
+        
         # SENDING EMAIL
         subject = 'Su reserva en MiniAirbnb ha sido realizada exitosamente'
         temp = 'myapp/email.html'
@@ -143,6 +144,7 @@ def thanks(request, id=0):
             "code": cod,
             "pax": prop.pax,
             "dates": finalDates,
+            "city": city,
         }
         html_content = render_to_string(temp, ctx)
         msg = EmailMultiAlternatives(subject, html_content, EMAIL_FROM, to=[email,])
