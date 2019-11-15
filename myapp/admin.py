@@ -1,8 +1,7 @@
 from django.contrib import admin
-from .models import Owner,Estate,Reservation,RentDate,City,Service
+from .models import Owner,Estate,RentDate,City,Service
 
 admin.site.register(Owner)
-# admin.site.register(Reservation)
 admin.site.register(City)
 admin.site.register(Service)
 

@@ -12,18 +12,10 @@ from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import render_to_string
 from email.mime.image import MIMEImage
 
-# def index(request):
-#     if request.user.is_authenticated:
-#         estates = Estate.objects.all()
-#         return render(request, 'myapp/filter.html',{'estates':estates})
-#     return redirect('/login')
-
 def index(request):
     cities = City.objects.all()
     rentDates = RentDate.objects.all()
     form = FilterForm()
-    # form.fields['dateFrom'].widget = DateTimePickerInput(format='%Y-%m-%d')
-    # form.fields['dateTo'].widget = DateTimePickerInput(format='%Y-%m-%d')
     return render(request, 'myapp/filter.html',{'cities':cities,'rentDates':rentDates, 'form':form})
 
 def home(request):
@@ -62,20 +54,6 @@ def login(request):
         return render(request, 'myapp/login.html', {'form': form})
 
 
-# def register(request):
-#     form = SignUpForm()
-#     if request.method == "POST":
-#         form = SignUpForm(data=request.POST)
-#         if form.is_valid():
-#             user= form.save()
-#             if user is not None:
-#                 do_login(request,user)
-#                 return redirect('/')
-#     form.fields['username'].help_text = None
-#     form.fields['password1'].help_text = None
-#     form.fields['password2'].help_text = None
-#     return render(request,'myapp/register.html',{'form': form})
-
 def logout(request):
     # Finalizamos la sesión
     do_logout(request)
@@ -110,11 +88,7 @@ def thanks(request, id=0):
     if request.method == "POST":
         
         form = DetailForm(data=request.POST, estateId=id)
-        # if form.is_valid():
-            # dates = form.cleaned_data['date']
-            # form.is_valid method don't work.
-            # return redirect('/')
-        
+           
         prop = Estate.objects.get(id=id)
         cod = datetime.today().strftime('%y-%m-%d-%H-%M-%S') + "-" + str(id) + "-" + str(prop.owner.id)
         getcontext().prec = 10
