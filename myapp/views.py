@@ -7,7 +7,8 @@ from .models import Estate, City, RentDate, Reservation, Service
 from datetime import datetime
 from decimal import *
 from django.db.models import Count
-
+from airbnb.settings import DATE_INPUT_FORMATS
+# from bootstrap_datepicker_plus import DateTimePickerInput
 
 # def index(request):
 #     if request.user.is_authenticated:
@@ -19,12 +20,13 @@ def index(request):
     cities = City.objects.all()
     rentDates = RentDate.objects.all()
     form = FilterForm()
+    # form.fields['dateFrom'].widget = DateTimePickerInput(format='%Y-%m-%d')
+    # form.fields['dateTo'].widget = DateTimePickerInput(format='%Y-%m-%d')
     return render(request, 'myapp/filter.html',{'cities':cities,'rentDates':rentDates, 'form':form})
 
 def home(request):
     form = FilterForm(request.POST)
     if request.method == 'POST':
-        
         if form.is_valid():
             estates = Estate.objects.filter(
                 city=request.POST['city']
@@ -44,17 +46,20 @@ def home(request):
 
 
 def login(request):
-    form = LoginForm()
-    if request.method == "POST":
-        form = LoginForm(data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                do_login(request, user)
-                return redirect('/admin')
-    return render(request, 'myapp/login.html', {'form': form})
+    if request.user.is_authenticated:
+        return redirect('/')
+    else:
+        form = LoginForm()
+        if request.method == "POST":
+            form = LoginForm(data=request.POST)
+            if form.is_valid():
+                username = form.cleaned_data['username']
+                password = form.cleaned_data['password']
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    do_login(request, user)
+                    return redirect('/admin/')
+        return render(request, 'myapp/login.html', {'form': form})
 
 
 # def register(request):
@@ -80,17 +85,17 @@ def logout(request):
 def reservations(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
-            return redirect('/admin')
+            return redirect('/admin/')
         else:
             rents_per_reservation = []
             reservations = Reservation.objects.filter(
                 rentdate__estate__owner__id= request.user.id
-            ).distinct()
+            ).distinct().order_by('code')
             for r in reservations:
                 rents = RentDate.objects.filter(reservation=r.id) #array de fechas de alquiler con id de reserva
                 rents_per_reservation.append(rents)#array de array
             return render(request, 'myapp/reservations.html',{'rents_per_reservation': rents_per_reservation})
-    return redirect('/admin')
+    return redirect('/admin/')
 
 
 def detail(request, id=0):   
@@ -98,7 +103,7 @@ def detail(request, id=0):
     if request.method == "GET":
         estate = Estate.objects.get(id=id)
         services = Service.objects.filter(estate=id)
-        return render(request,'myapp/product_detail.html', {'estate':estate, 'form':form, 'services':services})  
+        return render(request,'myapp/product_detail.html', {'estate':estate, 'form':form, 'services':services,})  
     return redirect('/')
 
 def thanks(request, id=0):
