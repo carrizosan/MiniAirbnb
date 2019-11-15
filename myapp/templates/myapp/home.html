@@ -26,37 +26,42 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             {% if request.user.is_authenticated %}
             <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                            <a class="dropdown-item" href="/reservations/">Mis Reservas</a>
-                    </li>
-                    <li class="nav-item">
-                            <a class="dropdown-item" href="/admin/">Admin</a>
-                    </li>
-                    <li class="nav-item">
-                            <a class="dropdown-item" href="/logout/">Logout</a>
-                    </li>
-                </ul>
+                {% if request.user.is_superuser %}
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/reservations/"><i class="fa fa-calendar" aria-hidden="true"></i> Mis
+                        Reservas</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/"><i class="fa fa-user" aria-hidden="true"></i> Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout/"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout </a>
+                </li>
+            </ul>
             {% else %}
             <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login/">Soy propietario <i class="fa fa-cogs" aria-hidden="true"></i></a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login/">Soy propietario <i class="fa fa-cogs" aria-hidden="true"></i></a>
+                </li>
             </ul>
             {% endif %}
         </div>
     </nav>
     <div class="container">
         <div class="row pt-5">
+            {% if estates %}
             {% for e in estates %}
             <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-3">
-                <div class="card"">
-                    <img class="card-img-top" src="{{ e.image.url }}" alt="Imagen de la propiedad">
+                <div class="card">
+                    <img class=" card-img-top" src="{{ e.image.url }}" alt="Imagen de la propiedad">
                     <div class="card-body">
-                        <h5 class="card-title">{{e.title}}</h5>
+                        <h5 class="card-title">{{e.title|truncatechars:29}}</h5>
                         <p class="card-text" style="height: 83px;">{{e.descripcion|truncatechars:120}}</p>
                         <div class="row">
                             <div class="col-6">
-                                <p>${{e.dailyRate}} p/dia</p>
+                                <p class="mt-2">${{e.dailyRate}} p/dia</p>
                             </div>
                             <div class="col-6">
                                 <a href="{% url 'detail' e.id %}" class="btn btn-color">Consultar</a>
@@ -65,16 +70,24 @@
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item align-content-between">
-                            <span class="d-flex justify-content-between">
+                            <span class="d-flex justify-content-between align-items-center pl-3 pr-3">
                                 {% for s in e.services.all %}
-                                <i class="{{s.iconClass}}" aria-hidden="true"></i>
+                                <i class="{{s.iconClass}} mx-auto" aria-hidden="true"></i>
                                 {% endfor %}
                             </span>
                         </li>
-                      </ul>
+                    </ul>
                 </div>
             </div>
             {% endfor %}
+            {% else %}
+            <div class="col-12 pt-3 text-center mb-5" style="min-height: 219px;">
+                <img src="{% static 'myapp/no-results.png'%}" class="img-responsive img-not-found mb-3" alt="My image">
+                <h3>No se encontraron resultados de tu búsqueda.</h3><br>
+                <a class="btn-not-found mx-auto" href="/"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver
+                </a>
+            </div>
+            {% endif %}
         </div>
     </div>
 
