@@ -19,9 +19,9 @@ Users:
 Logueese como Owner para ver las reservas de sus propiedades:
 
 -owners:
-    user: carlosdiaz  /  pass: charly2019  (Reservas precargadas)
-    user: julianmiguez  /  pass: juli2019   (Reservas precargadas)
-    user: claudiacordoba  /  pass: clau2019  (Reservas precargadas)
-    user: francopiussi  /  pass: fran2019
-    user: santiagocarrizo  /  pass: santi2019
+    user: carlosdiaz  /  pass: charly2019  (Reservas precargadas) <br/>
+    user: julianmiguez  /  pass: juli2019   (Reservas precargadas) <br/>
+    user: claudiacordoba  /  pass: clau2019  (Reservas precargadas) <br/>
+    user: francopiussi  /  pass: fran2019 <br/>
+    user: santiagocarrizo  /  pass: santi2019 <br/>
     user: luciacorrales  /  pass: luci2019
