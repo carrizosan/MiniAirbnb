@@ -38,8 +38,6 @@ def home(request):
                 rentdate__reservation__isnull=True,
                 pax__gte=request.POST['pax']
             ).distinct()
-            if not estates:
-                return redirect('/')
             return render(request, 'myapp/home.html', {'estates': estates})
         else:
             return render(request, 'myapp/filter.html', {'form': form})

@@ -26,14 +26,18 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             {% if request.user.is_authenticated %}
             <ul class="navbar-nav ml-auto">
+                {% if request.user.is_superuser %}
+                {% else %}
                 <li class="nav-item">
-                    <a class="dropdown-item" href="/reservations/">Mis Reservas</a>
+                    <a class="nav-link" href="/reservations/"><i class="fa fa-calendar" aria-hidden="true"></i> Mis
+                        Reservas</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/"><i class="fa fa-user" aria-hidden="true"></i> Admin</a>
                 </li>
                 <li class="nav-item">
-                    <a class="dropdown-item" href="/admin/">Admin</a>
-                </li>
-                <li class="nav-item">
-                    <a class="dropdown-item" href="/logout/">Logout</a>
+                    <a class="nav-link" href="/logout/"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout </a>
                 </li>
             </ul>
             {% else %}
@@ -47,7 +51,8 @@
     </nav>
     <div class="container">
         <div class="row pt-5">
-            <div class="table-responsive">
+            {% if rents_per_reservation %}
+            <div class="table-responsive" style="min-height: 265px;">
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -74,12 +79,19 @@
                     </tbody>
                 </table>
             </div>
+            {% else %}
+            <div class="col-12 pt-3 text-center" style="min-height: 219px; margin-top: 40px">
+                    <img src="{% static 'myapp/no-reservations.png'%}" class="img-responsive img-not-found mb-3" alt="My image">
+                <h3>Por el momento nadie hizo reservas</h3><br>
+                </a>
+            </div>
+            {% endif %}
         </div>
     </div>
 </body>
 
 <!-- Footer -->
-<footer>
+<footer class="mt-5">
     <div class="container">
         <div class="row">
             <div class="col-md-12">

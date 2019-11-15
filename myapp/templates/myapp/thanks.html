@@ -28,14 +28,18 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             {% if request.user.is_authenticated %}
             <ul class="navbar-nav ml-auto">
+                {% if request.user.is_superuser %}
+                {% else %}
                 <li class="nav-item">
-                    <a class="dropdown-item" href="/reservations/">Mis Reservas</a>
+                    <a class="nav-link" href="/reservations/"><i class="fa fa-calendar" aria-hidden="true"></i> Mis
+                        Reservas</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/"><i class="fa fa-user" aria-hidden="true"></i> Admin</a>
                 </li>
                 <li class="nav-item">
-                    <a class="dropdown-item" href="/admin/">Admin</a>
-                </li>
-                <li class="nav-item">
-                    <a class="dropdown-item" href="/logout/">Logout</a>
+                    <a class="nav-link" href="/logout/"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout </a>
                 </li>
             </ul>
             {% else %}
@@ -84,7 +88,8 @@
                             <p class="card-text">Su reserva en <span class="font-weight-bolder">{{estate.title}}
                                 </span>por un total de <span class="font-weight-bolder">${{total}}</span> ha sido
                                 confirmada exitosamente</p>
-                            <p>Se ha enviado un correo electrónico a la dirección proporcionada con los datos de la reserva.</p>
+                            <p>Se ha enviado un correo electrónico a la dirección proporcionada con los datos de la
+                                reserva.</p>
                             <ul class="list-group list-group-flush ">
                                 <li class="list-group-item ">Cód.: <span
                                         class="font-weight-bolder">{{reservation.code}}</span> </li>
